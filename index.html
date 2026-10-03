@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PDF Night Reader</title><link rel="stylesheet" href="style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script></head>
+<body class="night">
+<svg width="0" height="0" style="position:absolute"><defs>
+<symbol id="i-prev" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
+<symbol id="i-next" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+<symbol id="i-fitw" viewBox="0 0 24 24"><path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4"/></symbol>
+<symbol id="i-fitp" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></symbol>
+<symbol id="i-rot" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-3-6.2M20 4v5h-5"/></symbol>
+<symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></symbol>
+<symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol>
+<symbol id="i-print" viewBox="0 0 24 24"><path d="M7 9V4h10v5M7 17H4v-7h16v7h-3M7 14h10v6H7z"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></symbol>
+<symbol id="i-focus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></symbol>
+<symbol id="i-side" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/></symbol>
+<symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M14 5v4M6 15v4"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+</defs></svg>
+
+<section id="landing">
+  <div class="hero">
+    <div class="logo"><svg class="ic"><use href="#i-moon"/></svg></div>
+    <h1>PDF NIGHT READER</h1>
+    <p class="tag">Read PDFs comfortably in dark mode.</p>
+    <div id="drop" class="drop" tabindex="0">
+      <button class="btn primary big" id="choose">Choose PDF</button>
+      <span class="or">or</span><span class="dz">Drop PDF Here</span>
+    </div>
+    <p class="meta">🔒 100% local processing • No account required</p>
+    <p class="note">Dark reading mode may feel more comfortable for some people. Keep your screen brightness comfortable, use suitable room lighting, and take regular breaks.</p>
+  </div>
+</section>
+
+<div id="app" hidden>
+  <header id="top">
+    <div class="grp"><button class="ib" id="tSide" title="Thumbnails"><svg class="ic"><use href="#i-side"/></svg></button>
+      <div class="fname"><b id="fn">—</b><small id="fp"></small></div></div>
+    <div class="grp">
+      <button class="ib" id="prev" title="Previous (←)"><svg class="ic"><use href="#i-prev"/></svg></button>
+      <span class="pg"><input id="pgIn" value="1" aria-label="Page"> / <span id="pgTot">1</span></span>
+      <button class="ib" id="next" title="Next (→)"><svg class="ic"><use href="#i-next"/></svg></button>
+      <i class="sep"></i>
+      <button class="ib" id="zo" title="Zoom out (-)"><svg class="ic"><use href="#i-minus"/></svg></button>
+      <span id="zv" class="zv">100%</span>
+      <button class="ib" id="zi" title="Zoom in (+)"><svg class="ic"><use href="#i-plus"/></svg></button>
+      <button class="ib" id="fw" title="Fit width (W)"><svg class="ic"><use href="#i-fitw"/></svg></button>
+      <button class="ib" id="fpg" title="Fit page (F)"><svg class="ic"><use href="#i-fitp"/></svg></button>
+      <button class="ib" id="rot" title="Rotate"><svg class="ic"><use href="#i-rot"/></svg></button>
+    </div>
+    <div class="grp">
+      <div class="search"><svg class="ic"><use href="#i-search"/></svg><input id="q" placeholder="Search (Ctrl+F)">
+        <span id="qc"></span><button class="ib sm" id="qp"><svg class="ic"><use href="#i-up"/></svg></button><button class="ib sm" id="qn"><svg class="ic"><use href="#i-down"/></svg></button></div>
+      <button class="ib" id="full" title="Full screen"><svg class="ic"><use href="#i-full"/></svg></button>
+      <button class="ib" id="dl" title="Download original"><svg class="ic"><use href="#i-dl"/></svg></button>
+      <button class="ib" id="pr" title="Print"><svg class="ic"><use href="#i-print"/></svg></button>
+      <button class="ib" id="focus" title="Focus mode"><svg class="ic"><use href="#i-focus"/></svg></button>
+      <button class="night-btn" id="night">🌙 Night Reading</button>
+      <button class="ib" id="tSet" title="Reading Comfort"><svg class="ic"><use href="#i-sliders"/></svg></button>
+      <button class="ib" id="newf" title="Open another PDF"><svg class="ic"><use href="#i-x"/></svg></button>
+    </div>
+  </header>
+  <main id="main">
+    <aside id="thumbs"></aside>
+    <div id="reader"><div id="viewer"></div><div id="busy" hidden>Rendering…</div></div>
+    <aside id="comfort">
+      <h3>Reading Comfort</h3>
+      <div class="theme-row" id="themes"></div>
+      <label class="tg"><input type="checkbox" id="keep" checked> Preserve image colors</label>
+      <div class="opt" data-k="bright"><span>Brightness</span><div class="seg"></div></div>
+      <div class="opt" data-k="warm"><span>Warmth</span><div class="seg"></div></div>
+      <div class="opt" data-k="contrast"><span>Contrast</span><div class="seg"></div></div>
+      <div class="opt" data-k="text"><span>Text brightness</span><div class="seg"></div></div>
+      <div class="opt" data-k="dark"><span>Page darkness</span><div class="seg"></div></div>
+      <p class="note">Affects this reader only, not your whole screen.</p>
+      <p class="note">Dark reading mode may feel more comfortable for some people. Keep your screen brightness comfortable, use suitable room lighting, and take regular breaks.</p>
+    </aside>
+  </main>
+  <footer id="bot"><span>🔒 Your PDF stays on your device.</span><span id="st"></span><button class="btn sm" id="exitF" hidden>Exit focus</button></footer>
+</div>
+<input type="file" id="file" accept="application/pdf" hidden>
+<script src="script.js"></script></body></html>
