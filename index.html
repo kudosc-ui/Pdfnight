@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta name="theme-color" content="#0d1422"><meta name="mobile-web-app-capable" content="yes"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>PDF Night Reader</title><link rel="stylesheet" href="style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script></head>
 <body class="night">
@@ -22,6 +22,7 @@
 <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
 <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></symbol>
 </defs></svg>
 
 <section id="landing">
@@ -40,37 +41,18 @@
 
 <div id="app" hidden>
   <header id="top">
-    <div class="grp"><button class="ib" id="tSide" title="Thumbnails"><svg class="ic"><use href="#i-side"/></svg></button>
-      <div class="fname"><b id="fn">—</b><small id="fp"></small></div></div>
-    <div class="grp">
-      <button class="ib" id="prev" title="Previous (←)"><svg class="ic"><use href="#i-prev"/></svg></button>
-      <span class="pg"><input id="pgIn" value="1" aria-label="Page"> / <span id="pgTot">1</span></span>
-      <button class="ib" id="next" title="Next (→)"><svg class="ic"><use href="#i-next"/></svg></button>
-      <i class="sep"></i>
-      <button class="ib" id="zo" title="Zoom out (-)"><svg class="ic"><use href="#i-minus"/></svg></button>
-      <span id="zv" class="zv">100%</span>
-      <button class="ib" id="zi" title="Zoom in (+)"><svg class="ic"><use href="#i-plus"/></svg></button>
-      <button class="ib" id="fw" title="Fit width (W)"><svg class="ic"><use href="#i-fitw"/></svg></button>
-      <button class="ib" id="fpg" title="Fit page (F)"><svg class="ic"><use href="#i-fitp"/></svg></button>
-      <button class="ib" id="rot" title="Rotate"><svg class="ic"><use href="#i-rot"/></svg></button>
-    </div>
-    <div class="grp">
-      <div class="search"><svg class="ic"><use href="#i-search"/></svg><input id="q" placeholder="Search (Ctrl+F)">
-        <span id="qc"></span><button class="ib sm" id="qp"><svg class="ic"><use href="#i-up"/></svg></button><button class="ib sm" id="qn"><svg class="ic"><use href="#i-down"/></svg></button></div>
-      <button class="ib" id="full" title="Full screen"><svg class="ic"><use href="#i-full"/></svg></button>
-      <button class="ib" id="dl" title="Download original"><svg class="ic"><use href="#i-dl"/></svg></button>
-      <button class="ib" id="pr" title="Print"><svg class="ic"><use href="#i-print"/></svg></button>
-      <button class="ib" id="focus" title="Focus mode"><svg class="ic"><use href="#i-focus"/></svg></button>
-      <button class="night-btn" id="night">🌙 Night Reading</button>
-      <button class="ib" id="tSet" title="Reading Comfort"><svg class="ic"><use href="#i-sliders"/></svg></button>
-      <button class="ib" id="newf" title="Open another PDF"><svg class="ic"><use href="#i-x"/></svg></button>
-    </div>
+    <button class="ib" id="tSide" aria-label="Pages"><svg class="ic"><use href="#i-side"/></svg></button>
+    <div class="fname"><b id="fn">—</b><small id="fp"></small></div>
+    <button class="ib" id="sBtn" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
+    <button class="ib" id="more" aria-label="More options" aria-haspopup="menu" aria-expanded="false"><svg class="ic"><use href="#i-dots"/></svg></button>
   </header>
+  <div id="sbar" hidden><svg class="ic"><use href="#i-search"/></svg><input id="q" placeholder="Search in PDF" enterkeyhint="search" autocomplete="off"><span id="qc"></span>
+    <button class="ib sm" id="qp" aria-label="Previous match"><svg class="ic"><use href="#i-up"/></svg></button><button class="ib sm" id="qn" aria-label="Next match"><svg class="ic"><use href="#i-down"/></svg></button><button class="ib sm" id="sx" aria-label="Close search"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <main id="main">
     <aside id="thumbs"></aside>
     <div id="reader"><div id="viewer"></div><div id="busy" hidden>Rendering…</div></div>
-    <aside id="comfort">
-      <h3>Reading Comfort</h3>
+    <aside id="comfort" class="sheet">
+      <div class="grab"></div><h3>Reading comfort</h3>
       <div class="theme-row" id="themes"></div>
       <label class="tg"><input type="checkbox" id="keep" checked> Preserve image colors</label>
       <div class="opt" data-k="bright"><span>Brightness</span><div class="seg"></div></div>
@@ -78,11 +60,23 @@
       <div class="opt" data-k="contrast"><span>Contrast</span><div class="seg"></div></div>
       <div class="opt" data-k="text"><span>Text brightness</span><div class="seg"></div></div>
       <div class="opt" data-k="dark"><span>Page darkness</span><div class="seg"></div></div>
-      <p class="note">Affects this reader only, not your whole screen.</p>
-      <p class="note">Dark reading mode may feel more comfortable for some people. Keep your screen brightness comfortable, use suitable room lighting, and take regular breaks.</p>
+      <p class="note">Affects this reader only, not your whole screen. Keep brightness comfortable and take regular breaks.</p>
     </aside>
   </main>
-  <footer id="bot"><span>🔒 Your PDF stays on your device.</span><span id="st"></span><button class="btn sm" id="exitF" hidden>Exit focus</button></footer>
+  <nav id="pager" aria-label="Pages"><button class="ib" id="prev" aria-label="Previous page"><svg class="ic"><use href="#i-prev"/></svg></button>
+    <span class="pg"><input id="pgIn" value="1" inputmode="numeric" aria-label="Page"> / <span id="pgTot">1</span></span>
+    <button class="ib" id="next" aria-label="Next page"><svg class="ic"><use href="#i-next"/></svg></button></nav>
+  <footer id="bot"><span>🔒 Your PDF stays on your device.</span><span id="st"></span></footer>
+  <button class="btn sm" id="exitF" hidden>Exit focus</button>
+  <div id="scrim"></div>
+  <div id="menu" class="sheet" role="menu"><div class="grab"></div>
+    <div class="zrow"><button class="ib" id="zo" aria-label="Zoom out"><svg class="ic"><use href="#i-minus"/></svg></button><span id="zv" class="zv">100%</span><button class="ib" id="zi" aria-label="Zoom in"><svg class="ic"><use href="#i-plus"/></svg></button></div>
+    <div class="grid">
+      <button class="mi" id="fw"><svg class="ic"><use href="#i-fitw"/></svg><span>Fit width</span></button><button class="mi" id="fpg"><svg class="ic"><use href="#i-fitp"/></svg><span>Fit page</span></button><button class="mi" id="rot"><svg class="ic"><use href="#i-rot"/></svg><span>Rotate</span></button><button class="mi" id="sBtn2"><svg class="ic"><use href="#i-search"/></svg><span>Search</span></button>
+      <button class="mi" id="tSide2"><svg class="ic"><use href="#i-side"/></svg><span>Page thumbnails</span></button><button class="mi" id="tSet"><svg class="ic"><use href="#i-sliders"/></svg><span>Reading comfort</span></button><button class="mi" id="focus"><svg class="ic"><use href="#i-focus"/></svg><span>Focus mode</span></button><button class="mi" id="full"><svg class="ic"><use href="#i-full"/></svg><span>Full screen</span></button>
+      <button class="mi" id="dl"><svg class="ic"><use href="#i-dl"/></svg><span>Download</span></button><button class="mi" id="pr"><svg class="ic"><use href="#i-print"/></svg><span>Print</span></button><button class="mi" id="newf"><svg class="ic"><use href="#i-x"/></svg><span>Open another PDF</span></button>
+      <button class="mi sw" id="night"><svg class="ic"><use href="#i-moon"/></svg><span>Night reading</span><i class="knob"></i></button>
+    </div></div>
 </div>
 <input type="file" id="file" accept="application/pdf" hidden>
 <script src="script.js"></script></body></html>
