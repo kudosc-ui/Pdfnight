@@ -22,6 +22,7 @@
 <symbol id="i-up" viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></symbol>
 <symbol id="i-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="i-dual" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 12h18"/></symbol>
 <symbol id="i-dots" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="12" cy="19" r="1.4"/></symbol>
 </defs></svg>
 
@@ -44,13 +45,14 @@
     <button class="ib" id="tSide" aria-label="Pages"><svg class="ic"><use href="#i-side"/></svg></button>
     <div class="fname"><b id="fn">—</b><small id="fp"></small></div>
     <button class="ib" id="sBtn" aria-label="Search"><svg class="ic"><use href="#i-search"/></svg></button>
+    <button class="ib" id="dualBtn" aria-label="Dual PDF"><svg class="ic"><use href="#i-dual"/></svg></button>
     <button class="ib" id="more" aria-label="More options" aria-haspopup="menu" aria-expanded="false"><svg class="ic"><use href="#i-dots"/></svg></button>
   </header>
   <div id="sbar" hidden><svg class="ic"><use href="#i-search"/></svg><input id="q" placeholder="Search in PDF" enterkeyhint="search" autocomplete="off"><span id="qc"></span>
     <button class="ib sm" id="qp" aria-label="Previous match"><svg class="ic"><use href="#i-up"/></svg></button><button class="ib sm" id="qn" aria-label="Next match"><svg class="ic"><use href="#i-down"/></svg></button><button class="ib sm" id="sx" aria-label="Close search"><svg class="ic"><use href="#i-x"/></svg></button></div>
   <main id="main">
     <aside id="thumbs"></aside>
-    <div id="reader"><div id="viewer"></div><div id="busy" hidden>Rendering…</div></div>
+    <div id="panes"></div>
     <aside id="comfort" class="sheet">
       <div class="grab"></div><h3>Reading comfort</h3>
       <div class="theme-row" id="themes"></div>
@@ -63,9 +65,6 @@
       <p class="note">Affects this reader only, not your whole screen. Keep brightness comfortable and take regular breaks.</p>
     </aside>
   </main>
-  <nav id="pager" aria-label="Pages"><button class="ib" id="prev" aria-label="Previous page"><svg class="ic"><use href="#i-prev"/></svg></button>
-    <span class="pg"><input id="pgIn" value="1" inputmode="numeric" aria-label="Page"> / <span id="pgTot">1</span></span>
-    <button class="ib" id="next" aria-label="Next page"><svg class="ic"><use href="#i-next"/></svg></button></nav>
   <footer id="bot"><span>🔒 Your PDF stays on your device.</span><span id="st"></span></footer>
   <button class="btn sm" id="exitF" hidden>Exit focus</button>
   <div id="scrim"></div>
@@ -75,6 +74,7 @@
       <button class="mi" id="fw"><svg class="ic"><use href="#i-fitw"/></svg><span>Fit width</span></button><button class="mi" id="fpg"><svg class="ic"><use href="#i-fitp"/></svg><span>Fit page</span></button><button class="mi" id="rot"><svg class="ic"><use href="#i-rot"/></svg><span>Rotate</span></button><button class="mi" id="sBtn2"><svg class="ic"><use href="#i-search"/></svg><span>Search</span></button>
       <button class="mi" id="tSide2"><svg class="ic"><use href="#i-side"/></svg><span>Page thumbnails</span></button><button class="mi" id="tSet"><svg class="ic"><use href="#i-sliders"/></svg><span>Reading comfort</span></button><button class="mi" id="focus"><svg class="ic"><use href="#i-focus"/></svg><span>Focus mode</span></button><button class="mi" id="full"><svg class="ic"><use href="#i-full"/></svg><span>Full screen</span></button>
       <button class="mi" id="dl"><svg class="ic"><use href="#i-dl"/></svg><span>Download</span></button><button class="mi" id="pr"><svg class="ic"><use href="#i-print"/></svg><span>Print</span></button><button class="mi" id="newf"><svg class="ic"><use href="#i-x"/></svg><span>Open another PDF</span></button>
+      <button class="mi" id="dualM"><svg class="ic"><use href="#i-dual"/></svg><span>Dual PDF</span></button><button class="mi" id="lay"><svg class="ic"><use href="#i-side"/></svg><span>Layout</span></button><button class="mi" id="swap"><svg class="ic"><use href="#i-rot"/></svg><span>Swap PDFs</span></button>
       <button class="mi sw" id="night"><svg class="ic"><use href="#i-moon"/></svg><span>Night reading</span><i class="knob"></i></button>
     </div></div>
 </div>
