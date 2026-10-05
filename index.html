@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta name="theme-color" content="#0d1422"><meta name="mobile-web-app-capable" content="yes"><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>PDF Night Reader</title><link rel="stylesheet" href="style.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script></head>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png"></head>
 <body class="night">
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-prev" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></symbol>
@@ -79,4 +79,8 @@
     </div></div>
 </div>
 <input type="file" id="file" accept="application/pdf" hidden>
-<script src="script.js"></script></body></html>
+<script type="module">
+import*as p from './lib/pdf.min.mjs';window.pdfjsLib=p;
+const s=document.createElement('script');s.src='script.js';document.body.appendChild(s);
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script></body></html>

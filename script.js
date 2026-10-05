@@ -1,6 +1,7 @@
 (()=>{'use strict';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
-pdfjsLib.GlobalWorkerOptions.workerSrc=URL.createObjectURL(new Blob(['importScripts("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js")'],{type:'text/javascript'}));
+pdfjsLib.GlobalWorkerOptions.workerSrc=new URL('lib/pdf.worker.min.mjs',document.baseURI).href;
+const PDFOPT={cMapUrl:new URL('lib/cmaps/',document.baseURI).href,cMapPacked:true,standardFontDataUrl:new URL('lib/standard_fonts/',document.baseURI).href,wasmUrl:new URL('lib/wasm/',document.baseURI).href,iccUrl:new URL('lib/iccs/',document.baseURI).href};
 const THEMES={dark:['Dark',[17,17,17],[224,224,224]],midnight:['Midnight',[9,14,30],[196,212,242]],warm:['Warm Dark',[26,21,15],[232,214,184]],contrast:['High Contrast',[0,0,0],[255,255,255]],original:['Original']};
 const OPTS={bright:['Brightness',[25,40,55,70,85],55,v=>v+'%'],warm:['Warmth',['Neutral','Slightly Warm','Warm'],1],contrast:['Contrast',['Low','Comfortable','High'],1],text:['Text',['Normal','Bright'],0],dark:['Page',['Dark','Very Dark'],0]};
 const S={theme:'dark',night:true,keep:true,layout:'auto',dual:false,swapped:false,ver:0,o:{bright:85,warm:0,contrast:1,text:0,dark:0}};
@@ -44,7 +45,7 @@ async function raster(pg,sc,rot,ts,h){
  const r=(pg.rotate+rot)%360;let vp=pg.getViewport({scale:sc,rotation:r});
  const cap=Math.sqrt(MAXPX/(vp.width*vp.height));if(cap<1)vp=pg.getViewport({scale:sc*cap,rotation:r});
  const c=document.createElement('canvas');c.width=Math.floor(vp.width);c.height=Math.floor(vp.height);
- const ctx=c.getContext('2d');h.t=pg.render({canvasContext:ctx,viewport:vp,background:'#ffffff'});await h.t.promise;h.t=null;
+ const ctx=c.getContext('2d');h.t=pg.render({canvasContext:ctx,canvas:c,viewport:vp,background:'#ffffff'});await h.t.promise;h.t=null;
  if(eff()!=='original')await darken(ctx,c.width,c.height,ts);return c}
 
 /* ---------- render queue: nearest-to-screen first, stale jobs dropped ---------- */
@@ -157,7 +158,7 @@ document.addEventListener('drop',e=>{const f=e.dataTransfer.files[0],h=e.target.
 async function load(f,p){
  if(f.type!=='application/pdf'&&!/\.pdf$/i.test(f.name))return alert('Please choose a PDF file.');
  let buf,pdf,pages;
- try{buf=await f.arrayBuffer();pdf=await pdfjsLib.getDocument({data:buf.slice(0)}).promise;
+ try{buf=await f.arrayBuffer();pdf=await pdfjsLib.getDocument({data:buf.slice(0),...PDFOPT}).promise;
   pages=await Promise.all([...Array(pdf.numPages)].map((_,i)=>pdf.getPage(i+1)))}
  catch(e){return alert('Could not open this PDF (it may be corrupted or password-protected).')}
  $('#landing').hidden=true;$('#app').hidden=false;
